@@ -79,6 +79,5 @@
   <packaging>pom</packaging>
   <modules>
     <module>core</module>
-    <module>dao</module>
   </modules>
 </project>

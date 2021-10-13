@@ -1,5 +1,5 @@
-package hu.me.iit.teszteles.teszteles;
+package hu.me.iit.teszeles.teszteles;
 
-public enum Kivitel {
+public enum Valto {
 	KOMBI, SEDAN, CABRIO, LIMUZIN, CROSSOVER, SUV, MONSTER, COUPE, HATCHBACK, SPORT
 }

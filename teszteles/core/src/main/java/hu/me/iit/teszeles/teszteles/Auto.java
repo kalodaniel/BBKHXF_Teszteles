@@ -1,8 +1,12 @@
-package hu.me.iit.teszteles.teszteles;
+package hu.me.iit.teszeles.teszteles;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+
+import hu.me.iit.teszeles.teszteles.exceptions.AjtokSzamaNemMegfelelo;
+import hu.me.iit.teszeles.teszteles.exceptions.GyartasiIdoNemMegfelelo;
+import hu.me.iit.teszeles.teszteles.exceptions.RendszamNemMegfeleleo;
 
 public class Auto implements HanggalRendelkezo {
 	public static Map<String, Integer> hengerurtartalomErtekek;
@@ -62,7 +66,11 @@ public class Auto implements HanggalRendelkezo {
 		return rendszam;
 	}
 
-	public void setRendszam(String rendszam) {
+	public void setRendszam(String rendszam) throws RendszamNemMegfeleleo {
+		String regex="^([^a-z0-9Q]{3}-(?!000)\\d{3})$";
+		if(!rendszam.matches(regex)) {
+			throw new RendszamNemMegfeleleo(rendszam);
+		}
 		this.rendszam = rendszam;
 	}
 
@@ -75,10 +83,14 @@ public class Auto implements HanggalRendelkezo {
 	}
 
 	public LocalDate getGyartasiIdo() {
+	
 		return gyartasiIdo;
 	}
 
-	protected void setGyartasiIdo(LocalDate gyartasiIdo) {
+	protected void setGyartasiIdo(LocalDate gyartasiIdo) throws GyartasiIdoNemMegfelelo {
+		if(gyartasiIdo.isAfter(LocalDate.now()) || gyartasiIdo.isBefore(LocalDate.of(1885, 1, 1))) {
+			throw new GyartasiIdoNemMegfelelo(gyartasiIdo);
+		}
 		this.gyartasiIdo = gyartasiIdo;
 	}
 
@@ -126,7 +138,10 @@ public class Auto implements HanggalRendelkezo {
 		return ajtokSzama;
 	}
 
-	protected void setAjtokSzama(int ajtokSzama) {
+	protected void setAjtokSzama(int ajtokSzama) throws AjtokSzamaNemMegfelelo {
+		if(ajtokSzama<0 || ajtokSzama > 5) {
+			throw new AjtokSzamaNemMegfelelo(ajtokSzama);
+		}
 		this.ajtokSzama = ajtokSzama;
 	}
 
@@ -146,6 +161,10 @@ public class Auto implements HanggalRendelkezo {
 		this.valto = valto;
 		this.kivitel = kivitel;
 		this.ajtokSzama = ajtokSzama;
+	}
+
+	public Auto() {
+		
 	}
 
 }
